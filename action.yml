@@ -5,35 +5,18 @@ branding:
   icon: 'hard-drive'
   color: 'green'
 inputs:
-  push_to_branch:
-    description: 'Which Branch/Folder To Push'
-    default: 'gh-pages'
-  before_cmd:
-    description: 'Command To Run Before ApiGen'
-    default: ''
-  after_cmd:
-    description: 'Command To Run After ApiGen'
-    default: ''
-  auto_push:
-    description: 'if set to yes then it auto pushes latest source to current repo with the push_to_branch'
-    default: 'yes'
   output_folder:
-    description: 'Custom output folder if auto_push is disabled'
+    description: 'Folder to output docs'
     default: ''
   source_folder:
-    description: 'Custom Source Folder if auto_push is disabled'
+    description: 'Folder to generate docs'
     default: ''
-  cached_apigen:
-    description: 'If set to yes then it uses cached apigen'
-    default: 'yes'
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://ghcr.io/net9-oy/action-apigen:main'
   args:
-    - ${{ inputs.push_to_branch }}
-    - ${{ inputs.before_cmd }}
-    - ${{ inputs.after_cmd }}
-    - ${{ inputs.auto_push }}
+    - "--working-dir"
+    - ${{ inputs.working_directory }}
+    - "-o"
     - ${{ inputs.output_folder }}
     - ${{ inputs.source_folder }}
-    - ${{ inputs.cached_apigen }}

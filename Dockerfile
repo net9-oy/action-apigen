@@ -1,15 +1,4 @@
-FROM php:7.1-cli-alpine3.10
-
-RUN apk add git
-
-RUN apk add curl
-
-COPY entrypoint.sh /entrypoint.sh
-
-COPY apigen /cached-apigen
-
-RUN chmod +x /entrypoint.sh
-
-RUN chmod +x /cached-apigen
-
-ENTRYPOINT ["/entrypoint.sh"]
+FROM php:8.2-cli-alpine3.18
+RUN wget https://github.com/ApiGen/ApiGen/releases/latest/download/apigen.phar -O /usr/local/bin/apigen
+RUN chmod +x /usr/local/bin/apigen
+ENTRYPOINT ["/usr/local/bin/apigen", "--workers", "1"]
